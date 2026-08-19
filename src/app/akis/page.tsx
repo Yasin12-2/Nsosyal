@@ -13,10 +13,18 @@ import {
 import { oruntuHesapla } from "@/lib/oruntu";
 import { AkisGirisi } from "@/lib/types";
 import { ORNEK_METINLER } from "@/lib/demo-veri";
+import {
+  SessizKural,
+  eslesenKural,
+  sessizKuralEkle,
+  sessizKuralSil,
+  sessizKurallariYukle,
+} from "@/lib/sessiz-kurallar";
 import GirisFormu from "@/components/akis/GirisFormu";
 import GirisKarti from "@/components/akis/GirisKarti";
 import OruntuPaneli from "@/components/akis/OruntuPaneli";
 import MudahaleBanner from "@/components/akis/MudahaleBanner";
+import SessizKurallarPaneli from "@/components/akis/SessizKurallarPaneli";
 
 function idOlustur(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -31,6 +39,7 @@ export default function AkisGunluguSayfasi() {
   const [modelHatasi, setModelHatasi] = useState<string | null>(null);
   const [modelYukleniyor, setModelYukleniyor] = useState(true);
   const [bannerKapatildi, setBannerKapatildi] = useState(false);
+  const [sessizKurallar, setSessizKurallar] = useState<SessizKural[]>([]);
 
   // İlk yüklemede: localStorage'dan girdileri oku, modeli tarayıcıya indir.
   // Not: localStorage sunucuda mevcut olmadığından (SSR/hydration uyumsuzluğunu
@@ -40,6 +49,7 @@ export default function AkisGunluguSayfasi() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setGirisler(girisleriYukle());
+    setSessizKurallar(sessizKurallariYukle());
     modeliYukle()
       .then((m) => setModel(m))
       .catch((err) => {
@@ -99,6 +109,14 @@ export default function AkisGunluguSayfasi() {
     setBannerKapatildi(false);
   }, []);
 
+  const sessizKuralEkleTikla = useCallback((terim: string) => {
+    setSessizKurallar((mevcut) => sessizKuralEkle(mevcut, terim));
+  }, []);
+
+  const sessizKuralSilTikla = useCallback((id: string) => {
+    setSessizKurallar((mevcut) => sessizKuralSil(mevcut, id));
+  }, []);
+
   const oruntu = oruntuHesapla(girisler);
   const gorunecekGirisler = [...girisler].reverse(); // en yeni en üstte
 
@@ -128,6 +146,12 @@ export default function AkisGunluguSayfasi() {
 
       <OruntuPaneli oruntu={oruntu} />
 
+      <SessizKurallarPaneli
+        kurallar={sessizKurallar}
+        onEkle={sessizKuralEkleTikla}
+        onSil={sessizKuralSilTikla}
+      />
+
       <div className="flex items-center justify-between">
         <h2 className="font-medium text-gray-900">
           Girdiler ({girisler.length})
@@ -151,7 +175,12 @@ export default function AkisGunluguSayfasi() {
       ) : (
         <ul className="flex flex-col gap-3">
           {gorunecekGirisler.map((g) => (
-            <GirisKarti key={g.id} giris={g} onSil={girdiSil} />
+            <GirisKarti
+              key={g.id}
+              giris={g}
+              onSil={girdiSil}
+              sessizTerim={eslesenKural(g.metin, sessizKurallar)?.terim}
+            />
           ))}
         </ul>
       )}

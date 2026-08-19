@@ -1,6 +1,8 @@
 # Tema ve Fikir Kararı — Akış Aynası
 
 > Tarih: 2026-08-19. Onay: kullanıcı, sıkışık 5 günlük sprint nedeniyle tek-turlu hızlandırılmış onay süreciyle (bkz. CLAUDE.md'deki normal 2-kapılı süreç yerine burada tema+fikir birleştirilerek tek soruda onaylandı).
+>
+> **⚠️ GÜNCELLEME (aynı gün, 2. tur):** Kullanıcı kritik bir düzeltme yaptı — NSosyal soyut bir tema değil, GERÇEK, yayında, 1,7M+ kullanıcılı bir platform; yarışma bu platforma somut katkı istiyor. Aşağıdaki tema/mimari kararları GEÇERLİ ve KORUNUYOR, ama problem tanımı ve konumlandırma artık NSosyal'in gerçek, kanıtlanmış kullanıcı şikayetlerine bağlandı. Detay ve kanıt tabanı için MUTLAKA önce **`docs/02-nsosyal-platform-analizi-ve-pivot.md`** dosyasını oku — bu dosya güncellenmiş çerçeveyi içerir, çelişki varsa 02 esas alınır.
 
 ## Tema: Sosyal Yapay Zekâ
 

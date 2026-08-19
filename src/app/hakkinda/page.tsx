@@ -1,8 +1,13 @@
 const bolumler = [
   {
-    baslik: "Problem",
+    baslik: "Problem — NSosyal'in kendi verisi",
     icerik:
-      "Türkiye'de sosyal medya kullanımı hızla artıyor (TÜİK 2025: 10+ yaş nüfusun %71,7'si; We Are Social 2026: 62,3 milyon aktif kullanıcı, günlük ortalama 6 saat 26 dakika). Kullanıcılar akışlarında karşılaştıkları toksik/olumsuz içeriğin ne kadar biriktiğinin çoğu zaman farkında olmuyor. Mevcut çözümler genelde ekran süresi sınırlama/yasaklama odaklı; bu prototip yasaklamak yerine önce göstermeyi, sonra nazikçe hatırlatmayı tercih ediyor.",
+      "Şikayetvar'daki güncel NSosyal şikayet verisine göre platform 27/100 puanda (119 şikayetten yalnızca 13'ü çözülmüş). En büyük şikayet kümesi (52+ şikayet): bildirim/sessize alma ayarlarının çalışmaması — kullanıcılar susturduğu kanallardan aylarca bildirim almaya devam ediyor, hesabını sildikten sonra bile pazarlama SMS'i gelmeye devam ediyor. Platformun kendi T3AI botu moderasyonu platform tarafında yapıyor; ama kullanıcının kendi elinde, sunucu ayarına bağımlı olmayan bir kontrol katmanı yok. Bu prototip tam bu boşluğu dolduruyor.",
+  },
+  {
+    baslik: "Garanti Sessizlik",
+    icerik:
+      "Akış Günlüğü'ndeki bir panelden, sessize almak istediğiniz kelime/kaynak etiketlerini (ör. \"N Spor\") tanımlayabilirsiniz. Bu kurallar sunucuya hiç gönderilmez; yalnızca bu cihazda, platformun kendi ayarı çalışsa da çalışmasa da her zaman uygulanır — Şikayetvar'daki belgelenen \"ayardan kapattım ama gelmeye devam ediyor\" örüntüsüne doğrudan yanıt.",
   },
   {
     baslik: "Model ve veri",
@@ -22,7 +27,7 @@ const bolumler = [
   {
     baslik: "Sınırlamalar (dürüst beyan)",
     icerik:
-      "Bu bir teşhis veya terapi aracı değildir. Model ikili (toksik/değil) çalışır, ince taneli duygu analizi yapmaz. Veri seti 2020 tarihlidir, güncel argo/slang'ı tam yakalamayabilir. Gerçek platform entegrasyonu (Instagram/TikTok/X API) bu prototipte YOK; kullanıcı metni manuel yapıştırarak veya örnek verilerle test ediyor — bu bilinçli bir kapsam kararı, sonraki adım olarak planlanıyor.",
+      "Bu bir teşhis veya terapi aracı değildir. Model ikili (toksik/değil) çalışır, ince taneli duygu analizi yapmaz. Veri seti 2020 tarihlidir, güncel argo/slang'ı tam yakalamayabilir. Gerçek NSosyal API/kaynak koduna erişim bu prototip aşamasında doğrulanamadı; bu yüzden bir tamamlayıcı (companion) araç olarak konumlandırılıyor — kullanıcı metni manuel yapıştırarak veya örnek verilerle test ediyor. Resmi entegrasyon, sonraki adım olarak (NSosyal ekibiyle ön görüşme) planlanıyor.",
   },
 ];
 

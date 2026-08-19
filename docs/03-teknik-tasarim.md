@@ -52,4 +52,18 @@ Lojistik regresyon doğrusal bir model olduğu için her kelimenin skora katkıs
 - Tek veri setiyle eğitildi, farklı platform/bağlamlarda genelleme test edilmedi.
 
 ### Git
-Bu klasöre özel, bağımsız bir git reposu (`.git`, ana Bağımlılık projesinden ayrı). İlk commit bu oturumda atılacak; sonraki oturumlarda anlamlı kilometre taşlarıyla devam edilecek. Uzak (GitHub) repo henüz bağlanmadı — kullanıcıdan bekleniyor (bkz. memory: `nsosyal_inovasyon_durum.md`).
+Bu klasöre özel, bağımsız bir git reposu (`.git`, ana Bağımlılık projesinden ayrı). İlk commit bu oturumda atıldı. Uzak (GitHub) repo henüz bağlanmadı — kullanıcıdan bekleniyor (bkz. memory: `nsosyal_inovasyon_durum.md`).
+
+## Gün 1, devam — Pivot: NSosyal'e kanıta dayalı bağlanma
+
+Kullanıcı kritik bir düzeltme yaptı: NSosyal soyut bir tema değil, gerçek/yayında bir platform; yarışma bu platforma somut katkı istiyor. Detaylı araştırma ve karar gerekçesi: `docs/02-nsosyal-platform-analizi-ve-pivot.md`. Özet: NSosyal'in kendi bildirim/sessize alma ayarları belgelenmiş biçimde güvenilmez (Şikayetvar: 27/100 puan, 52+ bildirim/SMS şikayeti). Mevcut mimarinin ~%90'ı korunuyor, sadece çerçeveleme ve bir yeni özellik eklendi.
+
+**Eklenen: "Garanti Sessizlik" (`src/lib/sessiz-kurallar.ts`, `src/components/akis/SessizKurallarPaneli.tsx`)**
+- Kullanıcının tanımladığı kelime/kaynak etiketleri (ör. "N Spor"), sunucuya hiç gönderilmeden, yalnızca bu cihazda `localStorage`'da tutulur ve her girişte `eslesenKural()` ile kontrol edilir.
+- Eşleşen girişler `GirisKarti`'de "🔇 Garanti sessizlik" etiketiyle görsel olarak işaretlenir (silinmiyor, sadece soluklaştırılıyor — kullanıcı isterse geri görebilir).
+- Mimari gerekçe: platformun kendi ayarının çalışıp çalışmadığına bağımlı olmayan, her zaman tutarlı bir ikinci katman — Şikayetvar'daki "ayardan kapattım, gelmeye devam ediyor" örüntüsüne doğrudan teknik yanıt.
+- 9 yeni test (`sessiz-kurallar.test.ts`) — eşleşme mantığı (case-insensitive, Türkçe karakter, tekrar eklenmeme, silme) kapsandı.
+
+**Ana Sayfa / Hakkında sayfaları** NSosyal'e özel kanıt/istatistiklerle (Şikayetvar 27/100, kategori kırılımı) güncellendi; genel "sosyal medya kullanımı artıyor" çerçevesinden NSosyal'in kendi, kaynaklı sorununa geçildi.
+
+**Kalite kapıları (tekrar doğrulandı):** `tsc` 0 hata, `eslint` 0 hata, `vitest` 25/25 (16→25, +9 yeni test), `next build` başarılı, 4 route.

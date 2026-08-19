@@ -36,10 +36,13 @@ export default function AnaSayfa() {
             tutan, sizi yargılamayan bir farkındalık aracı.
           </h1>
           <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-            Sosyal medyada gördüğünüz içeriklerin ne kadarı olumsuz/toksik?
-            Akış Aynası, yapıştırdığınız gönderi ve yorumları cihazınızda
-            analiz eder, zaman içindeki örüntüyü size sade bir şekilde
-            gösterir — verileriniz asla bu cihazdan çıkmaz.
+            NSosyal&apos;in kendi bildirim/sessize alma ayarları
+            güvenilmez olduğunda (bkz. aşağıda), kullanıcının elinde her
+            zaman çalışan bir ikinci katman kalmalı. Akış Aynası,
+            yapıştırdığınız gönderi ve yorumları cihazınızda analiz eder,
+            zaman içindeki örüntüyü gösterir ve seçtiğiniz içerikleri
+            <strong> sunucu ayarına bağlı olmadan</strong> sessize alır —
+            verileriniz asla bu cihazdan çıkmaz.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
@@ -60,17 +63,27 @@ export default function AnaSayfa() {
 
       <section className="mx-auto max-w-4xl px-4 sm:px-6 py-16">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--renk-sakin-koyu)] mb-2">
-          Neden bu proje?
+          Neden bu proje? — NSosyal&apos;in kendi verisi
         </h2>
+        <p className="text-gray-700 max-w-2xl leading-relaxed mb-4">
+          Şikayetvar&apos;daki güncel NSosyal şikayet verisine göre platform{" "}
+          <strong>27/100</strong> puanda (119 şikayetten yalnızca 13&apos;ü
+          çözülmüş). En büyük iki küme: <strong>bildirim/sessize alma
+          ayarlarının çalışmaması</strong> (52+ şikayet — kullanıcılar
+          susturduğu kanallardan aylarca bildirim almaya devam ediyor,
+          hesabını sildikten sonra bile SMS gelmesi dahil) ve hesap
+          erişimi/kimlik doğrulama sorunları (53+ şikayet). Platformun kendi
+          T3AI botu moderasyonu backend/platform tarafında yapıyor; ama
+          kullanıcının <strong>kendi</strong> tarafında, platformun sunucu
+          ayarına bağımlı olmadan güvenilir şekilde çalışan bir kişisel
+          kontrol katmanı yok.
+        </p>
         <p className="text-gray-700 max-w-2xl leading-relaxed mb-10">
-          Türkiye&apos;de sosyal medya kullanımı hızla artıyor ve gündelik akış
-          çoğu zaman kullanıcının seçmediği, duygusal olarak yorucu içerikle
-          doluyor. Var olan çözümler (uygulama zaman sınırlayıcılar, streak
-          tabanlı dijital detoks uygulamaları) genelde &quot;yasaklayıcı&quot;
-          bir dille konuşuyor. Akış Aynası bunun yerine{" "}
-          <strong>farkındalık ve şeffaflık</strong> üzerinden ilerliyor: önce
-          gösterir, sonra nazikçe hatırlatır — asla suçlamaz veya erişimi
-          kısıtlamaz.
+          Akış Aynası bu boşluğu, <strong>farkındalık ve şeffaflık</strong>{" "}
+          üzerinden dolduruyor: önce gösterir, sonra nazikçe hatırlatır, ve
+          seçtiğiniz kural/kelimeleri cihazınızda <strong>garanti</strong>{" "}
+          şekilde uygular — asla suçlamaz, asla platformun kendi ayarının
+          çalışıp çalışmadığına bel bağlamaz.
         </p>
         <div className="grid sm:grid-cols-2 gap-6">
           {ozellikler.map((o) => (

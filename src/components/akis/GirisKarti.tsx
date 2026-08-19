@@ -21,18 +21,39 @@ function saatFormatla(ts: number): string {
 export default function GirisKarti({
   giris,
   onSil,
+  sessizTerim,
 }: {
   giris: AkisGirisi;
   onSil: (id: string) => void;
+  /** Eşleşen "Garanti Sessizlik" kuralının terimi varsa (bkz.
+   * sessiz-kurallar.ts); bu girdi platformun kendi ayarına bakılmaksızın
+   * bu cihazda sessize alınmış demektir. */
+  sessizTerim?: string | null;
 }) {
   const [acik, setAcik] = useState(false);
   const olumsuz = enOlumsuzKatkilar(giris.katkilar, 5);
   const olumlu = enOlumluKatkilar(giris.katkilar, 5);
 
   return (
-    <li className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
+    <li
+      className={`rounded-xl border p-4 shadow-sm ${
+        sessizTerim
+          ? "border-gray-200 bg-gray-50/70"
+          : "border-black/10 bg-white"
+      }`}
+    >
+      {sessizTerim && (
+        <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-gray-200 px-2.5 py-1 text-xs font-medium text-gray-600">
+          🔇 Garanti sessizlik — &quot;{sessizTerim}&quot; kuralına uydu
+          (cihazında, sunucudan bağımsız)
+        </div>
+      )}
       <div className="flex items-start justify-between gap-3">
-        <p className="text-sm text-gray-800 leading-relaxed break-words flex-1">
+        <p
+          className={`text-sm leading-relaxed break-words flex-1 ${
+            sessizTerim ? "text-gray-500" : "text-gray-800"
+          }`}
+        >
           {giris.metin}
         </p>
         <SkorRozeti skor={giris.skor} />
