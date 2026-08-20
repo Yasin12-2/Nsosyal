@@ -21,6 +21,11 @@ const ozellikler = [
     aciklama:
       "Olumsuz örüntü belirginleştiğinde damgalamayan, suçlamayan bir farkındalık/mola önerisi sunar — karar her zaman sizde kalır.",
   },
+  {
+    baslik: "Güven Kartı: taklit/kalıp içerik farkındalığı",
+    aciklama:
+      "NSosyal'in kendi vaadi olan 'taklit hesaplara hassasiyet'i, kullanıcı tarafında tamamlayan bağımsız bir modül: birden fazla metin arasındaki şablon benzerliğini ve bir profildeki taklit riski sinyallerini, gerekçesiyle birlikte gösterir.",
+  },
 ];
 
 export default function AnaSayfa() {

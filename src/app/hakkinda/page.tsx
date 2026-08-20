@@ -25,9 +25,14 @@ const bolumler = [
       "Model doğrusal olduğu için her skor, kelime katkılarının toplamı olarak tam olarak açıklanabilir. Her girdide 'Neden bu skoru gördüm?' paneli, skoru en çok artıran/azaltan kelimeleri gösterir — bu gerçek bir açıklanabilirlik, dekoratif bir 'yapay zeka' süsü değil.",
   },
   {
+    baslik: "Güven Kartı",
+    icerik:
+      "NSosyal'in kendi kurucusu ve resmi hesabı, taklit/sahte hesaplara karşı hassas olduklarını kamuya açık biçimde belirtiyor. Güven Kartı, bu vaadi kullanıcı tarafında tamamlayan iki bağımsız sinyal sunar: (1) birden fazla gönderi/hesap açıklaması metni arasındaki TF-IDF kelime benzerliğini ölçen 'Şablon/Spam Benzerliği', ve (2) bir profil adı+biyografisindeki isim benzerliği, öz-savunma dil kalıpları ve doğrulama tutarsızlığını birleştiren, açıklanabilir 'Taklit/Kimlik Riski' göstergesi. İkisi de kesin 'bot/sahte hesap' iddiası kurmaz; yalnızca etkileşime girmeden önce dikkate alınabilecek, gerekçesi görünür sinyaller sunar.",
+  },
+  {
     baslik: "Sınırlamalar (dürüst beyan)",
     icerik:
-      "Bu bir teşhis veya terapi aracı değildir. Model ikili (toksik/değil) çalışır, ince taneli duygu analizi yapmaz. Veri seti 2020 tarihlidir, güncel argo/slang'ı tam yakalamayabilir. Gerçek NSosyal API/kaynak koduna erişim bu prototip aşamasında doğrulanamadı; bu yüzden bir tamamlayıcı (companion) araç olarak konumlandırılıyor — kullanıcı metni manuel yapıştırarak veya örnek verilerle test ediyor. Resmi entegrasyon, sonraki adım olarak (NSosyal ekibiyle ön görüşme) planlanıyor.",
+      "Bu bir teşhis veya terapi aracı değildir. Model ikili (toksik/değil) çalışır, ince taneli duygu analizi yapmaz. Veri seti 2020 tarihlidir, güncel argo/slang'ı tam yakalamayabilir. Güven Kartı'ndaki tanınmış isim/marka listesi küçük ve elle derlenmiştir (20-40 örnek), kapsamlı bir veri tabanı değildir; isim benzerliği ve dil kalıbı eşleştirmesi olasılıksal bir gösterge olup kesin bir tespit aracı değildir. Gerçek NSosyal API/kaynak koduna erişim bu prototip aşamasında doğrulanamadı; bu yüzden bir tamamlayıcı (companion) araç olarak konumlandırılıyor — kullanıcı metni manuel yapıştırarak veya örnek verilerle test ediyor. Resmi entegrasyon, sonraki adım olarak (NSosyal ekibiyle ön görüşme) planlanıyor.",
   },
 ];
 
@@ -68,6 +73,12 @@ export default function HakkindaSayfasi() {
           <li>
             Prototipte hesap/oturum sistemi yoktur; gerçek kullanıcı verisi
             toplanmaz.
+          </li>
+          <li>
+            Güven Kartı&apos;na yapıştırdığınız metinler localStorage&apos;a
+            KAYDEDİLMEZ; yalnızca o sekmede, sayfadan ayrılana kadar bellekte
+            tutulur — çünkü bu araç sıklıkla sizin değil, başka bir profilin
+            herkese açık metnini analiz eder.
           </li>
         </ul>
       </section>

@@ -67,3 +67,50 @@ Kullanıcı kritik bir düzeltme yaptı: NSosyal soyut bir tema değil, gerçek/
 **Ana Sayfa / Hakkında sayfaları** NSosyal'e özel kanıt/istatistiklerle (Şikayetvar 27/100, kategori kırılımı) güncellendi; genel "sosyal medya kullanımı artıyor" çerçevesinden NSosyal'in kendi, kaynaklı sorununa geçildi.
 
 **Kalite kapıları (tekrar doğrulandı):** `tsc` 0 hata, `eslint` 0 hata, `vitest` 25/25 (16→25, +9 yeni test), `next build` başarılı, 4 route.
+
+## Gün 2 — 20 Ağustos 2026 (gece → sabah): "Güven Kartı" modülü
+
+### Bağlam
+Gece boyunca iki paralel araştırma yapıldı (`docs/05-derin-fikir-taramasi.md` — dış kaynak/rakip taraması; `docs/06-canli-hesap-bulgulari.md` — NSosyal'in kendi canlı hesabı üzerinden birincil kanıt taraması) ve tek bir nihai öneride birleştirildi (`docs/07-gece-sentezi-oneri.md`). Kullanıcı onayı: mevcut "Akış Aynası" fikri korunuyor, üzerine bağımsız yeni bir modül — **Güven Kartı** — ekleniyor. Mevcut modüllere (toksisite sınıflandırıcı, Akış Günlüğü, Garanti Sessizlik, şeffaflık katmanı) DOKUNULMADI.
+
+**Kanıt zinciri (rapor anlatısı için):** NSosyal'in kurucusu ve resmi hesabı, taklit/sahte hesaplara karşı hassasiyet vaat ediyor (bkz. `docs/06`, §1.1); buna rağmen platformda uzun süredir askıya alınmamış, kendini ironik biçimde "sahte değil" diye tanımlayan taklit hesap örnekleri gözlemlendi (§1.2). Güven Kartı, bu vaat/gerçeklik boşluğuna kullanıcı tarafında yanıt veren, tamamen client-side bir farkındalık aracı.
+
+### Eklenen modül: Güven Kartı
+
+**1) Şablon/Spam Benzerliği** (`src/lib/guven-karti.ts` → `sablonBenzerligiHesapla`)
+- Kullanıcının yapıştırdığı 2+ metin arasında TF-IDF tabanlı kosinüs benzerliği hesaplanır.
+- **Teknik karar + gerekçe:** Mevcut `scoring.ts`'teki `tokenize`/`turkishLower` fonksiyonları AYNEN yeniden kullanıldı (kod tekrarı yok, tokenizasyon tutarlılığı korunuyor) — ama IDF, önceden eğitilmiş bir modelden değil, YALNIZCA girilen metinlerin oluşturduğu küçük korpustan hesaplanıyor. Böylece modül, eğitilmiş bir sınıflandırıcıya bağımlı olmadan HERHANGİ bir metin kümesini karşılaştırabiliyor — bu, "kendi eğitilmiş modelimiz + genel amaçlı benzerlik aracı" arasındaki bilinçli mimari ayrım.
+- İkili karşılaştırmalar azalan benzerliğe göre sıralanıp en yüksek çift + ortalama gösteriliyor; eşikler (`SABLON_BENZERLIK_ESIK_ORTA=0.45`, `..._YUKSEK=0.7`) tek bir yerde sabit tanımlandı (mevcut `oruntu.ts`'teki "sabitler tek yerde" deseniyle tutarlı).
+- **Dil kararı:** "Bu metinler birbirine olağandışı derecede benziyor, kalıp içerik olabilir" — "bu bir bot/spam" gibi kesin iddia YOK (damgalamayan dil ilkesi).
+
+**2) Taklit/Kimlik Riski Göstergesi** (`src/lib/guven-karti.ts` → `taklitRiskiHesapla`)
+- Üç açıklanabilir sinyali ağırlıklı olarak birleştirir: (a) isim/marka benzerliği (Levenshtein tabanlı, normalize edilmiş string benzerliği + alt-dize güçlendirmesi, ağırlık 0.5), (b) biyografideki öz-savunma dil kalıpları ("sahte değil", "gerçek hesap", "resmi değildir", "inanabilirsiniz" vb. — `docs/06`'daki gözlemlenen gerçek sinyalin genellemesi, ağırlık 0.3), (c) doğrulama/tanınırlık tutarsızlığı — kullanıcının kendi işaretlediği "doğrulama rozeti var mı?" checkbox'ı + yüksek isim benzerliği birlikte tetiklenirse (ağırlık 0.2).
+- **Referans isim listesi (`TANINMIS_ISIMLER`, 36 örnek):** Küresel + yerli, nötr, kamuya mâl olmuş kişi/marka isimleri (ör. Elon Musk, Galatasaray, Turkcell). Kasıtlı olarak SİYASİ figürler ve gerçek/özel bir NSosyal hesabı (`@realelonmusk` gibi) İÇERMİYOR — bu sadece bizim araştırma kanıtımızdı, koda gerçek bir hesabı hedefleyen hiçbir sabit kod YAZILMADI. Liste yalnızca genel isim-benzerliği referansı; ürün herhangi bir profil metnini analiz eden GENEL bir araç.
+- Her sinyalin skora katkısı ve gerekçesi ayrı ayrı, kullanıcıya görünür şekilde raporlanıyor (mevcut şeffaflık katmanı ilkesiyle birebir tutarlı — `GirisKarti.tsx`'teki "Neden bu skoru gördüm?" panelinin doğal devamı).
+- **Dil kararı:** Sonuç bir "sahte hesap tespiti" değil, "dikkat düzeyi" (düşük/orta/yüksek) — ihbar aracı değil, kullanıcı farkındalığı aracı.
+
+### Mimari/etik kısıtlar (uygulandı)
+- Tamamen client-side, yeni backend/API/veritabanı yok.
+- NSosyal'den otomatik veri çekme yok; kullanıcı metni/profil bilgisini kendi elle yapıştırıyor. Doğrulama rozeti bilgisi kullanıcı beyanına dayalı bir checkbox — otomatik çekilmiyor.
+- **Kalıcılık kararı (Akış Günlüğü'nden bilinçli farklılık):** Güven Kartı girdileri localStorage'a KAYDEDİLMİYOR, yalnızca React state'inde (sekme ömrü boyunca) tutuluyor. Gerekçe: Akış Günlüğü kullanıcının KENDİ akışını saklarken, Güven Kartı sıklıkla BAŞKA bir profilin herkese açık metnini analiz ediyor — bu veriyi (yerel de olsa) kalıcı tutmamak, KVKK-minimal felsefeyi bir adım daha ileri taşıyan bilinçli bir tercih.
+
+### Bileşen/dosya yapısı (yeni)
+- `src/lib/guven-karti.ts` — TF-IDF benzerlik + isim benzerliği + öz-savunma kalıp eşleştirme + risk skoru birleştirme mantığı (saf fonksiyonlar, side-effect yok).
+- `src/lib/guven-karti.test.ts` — 24 yeni test (benzerlik hesaplama, Levenshtein/string benzerliği, isim eşleştirme, öz-savunma kalıp tespiti, risk skoru birleştirme).
+- `src/components/guven/SablonBenzerligiPaneli.tsx`, `TaklitRiskiPaneli.tsx`, `TaklitRiskRozeti.tsx` — mevcut `akis/` bileşen stiliyle (rozet + panel deseni, aynı Tailwind sınıfları/renk paleti) tutarlı.
+- **Klasör kararı:** Bileşenler `src/components/akis/` yerine yeni `src/components/guven/` klasörüne kondu (mevcut `akis/` grubuyla aynı düzey, ayrı bir özellik grubu) — mevcut modüllere "dokunma" kısıtına en temiz uyum, ve iki modülün birbirinden bağımsız geliştirilebilir olduğunu dosya yapısında da netleştiriyor.
+- **Sayfa kararı:** `/akis`'e gömülü bir bölüm yerine ayrı bir `/guven` sayfası açıldı. Gerekçe: (1) girdi şekli temelden farklı — Akış Günlüğü tek bir biriken "benim gördüğüm içerik" akışı, Güven Kartı çoklu metin/profil karşılaştırması; aynı sayfaya sıkıştırmak formu karmaşıklaştırırdı (UX önceliği: sadelik). (2) gizlilik çerçevesi farklı — biri kullanıcının kendi verisini, diğeri genelde başka bir profilin herkese açık metnini işliyor; bunu ayrı bir sayfa/URL olarak göstermek bu ayrımı kullanıcıya da netleştiriyor. `layout.tsx` navigasyonuna "Güven Kartı" linki eklendi.
+- `src/app/hakkinda/page.tsx` ve `src/app/page.tsx`'e modülü tanıtan kısa, dürüst (sınırlamaları da belirten) bölümler eklendi.
+
+### Kalite kapıları (sırayla, ayrı ayrı doğrulandı)
+| Kapı | Sonuç |
+|---|---|
+| `npx tsc --noEmit` | 0 hata |
+| `npx eslint .` | 0 hata |
+| `npx vitest run` | 49/49 test geçti (25→49, +24 yeni test, `guven-karti.test.ts`) |
+| `npx next build` | Başarılı, 5 route statik üretildi (`/`, `/akis`, `/guven`, `/hakkinda`, `/_not-found`) |
+
+### Bilinen sınırlamalar (dürüst beyan, rapora aktarılacak)
+- `TANINMIS_ISIMLER` listesi küçük (36 örnek) ve elle derlenmiş — kapsamlı bir isim veri tabanı değil, MVP kapsamında kasıtlı olarak dar tutuldu.
+- İsim benzerliği ve öz-savunma dil kalıbı eşleştirmesi olasılıksal/sezgisel bir gösterge; davranışsal sinyallere (hesap yaşı, gönderi sıklığı, ağ yapısı) NSosyal API'si olmadığı için erişilemiyor — bu yüzden "kesin tespit" değil, "dikkat çekici sinyal" olarak dürüstçe çerçevelendi (bkz. `docs/05-derin-fikir-taramasi.md`, §3, Botometer notu).
+- Şablon benzerliği modülü küçük metin kümelerinde (2-5 metin) güvenilir; çok büyük korpuslarda performans/anlamlılık test edilmedi (MVP kapsamı dışı).

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 const navLinks = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/akis", label: "Akış Günlüğü" },
+  { href: "/guven", label: "Güven Kartı" },
   { href: "/hakkinda", label: "Hakkında" },
 ];
 
