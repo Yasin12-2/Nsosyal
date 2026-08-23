@@ -43,3 +43,6 @@ next-env.d.ts
 # eğitim verisi — data/raw/offenseval2020-turkish.zip (kaynak, küçük) izlenir;
 # açılmış (extracted) hali tekrar üretilebilir olduğu için repoya alınmaz.
 /data/extracted/
+
+# rapor docx üzerinde çalışırken üretilen geçici dosyalar (unzip/render/script) — repoya gerek yok
+/scratchpad_docx/
